@@ -1,0 +1,6 @@
+c:\users\665834\documents\visual studio 2012\Projects\EmployeeDetails\EmployeeDetails\bin\Release\EmployeeDetails.exe.config
+c:\users\665834\documents\visual studio 2012\Projects\EmployeeDetails\EmployeeDetails\bin\Release\EmployeeDetails.exe
+c:\users\665834\documents\visual studio 2012\Projects\EmployeeDetails\EmployeeDetails\bin\Release\EmployeeDetails.pdb
+c:\users\665834\documents\visual studio 2012\Projects\EmployeeDetails\EmployeeDetails\obj\Release\EmployeeDetails.exe
+c:\users\665834\documents\visual studio 2012\Projects\EmployeeDetails\EmployeeDetails\obj\Release\EmployeeDetails.pdb
+c:\users\665834\documents\visual studio 2012\Projects\EmployeeDetails\EmployeeDetails\obj\Release\EmployeeDetails.csprojResolveAssemblyReference.cache
