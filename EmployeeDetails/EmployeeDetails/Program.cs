@@ -8,6 +8,7 @@ namespace EmployeeDetails
 {
     class Employee
     {
+        
         private int EmployeeID, Salary;
         private String EmployeeName, Designation;
         private DateTime Doj;
@@ -79,8 +80,67 @@ namespace EmployeeDetails
             DateTime date=DateTime.Parse(Console.ReadLine());
             Doj = date;
         }
- 
+       
+    }
+    class Employee_SortBySalaryByAscendingOrder : IComparer<Employee>
+    {
+
+
+        public int Compare(Employee x, Employee y)
+        {
+            if (x.salary > y.salary) return 1;
+            else if (x.salary < y.salary) return -1;
+            else return 0;
+        }
+
+    }
+    class Employee_SortByName : IComparer<Employee>
+    {
         
+
+        public int Compare(Employee x, Employee y)
+        {
+            return string.Compare(x.name, y.name);
+        }
+
+       
+    }
+    class Employee_SortByIDByAscendingOrder : IComparer<Employee>
+    {
+
+
+        public int Compare(Employee x, Employee y)
+        {
+            if (x.id > y.id) return 1;
+            else if (x.id < y.id) return -1;
+            else return 0;
+        }
+
+    }
+    class Employee_SortByDesig : IComparer<Employee>
+    {
+
+
+        public int Compare(Employee x, Employee y)
+        {
+            return string.Compare(x.Design, y.Design);
+        }
+
+
+    }
+    class Employee_SortByDoj : IComparer<Employee>
+    {
+
+
+        public int Compare(Employee x, Employee y)
+        {
+            int result = DateTime.Compare(x.date, y.date);
+            if (result < 0) return -1;
+            else if (result == 0) return 0;
+            else return 1;
+        }
+
+
     }
     public class example
     {
@@ -88,7 +148,7 @@ namespace EmployeeDetails
         {
             
             List<Employee> employees = new List<Employee>();
-            employees.Add(new Employee(1236,"Neerav","RAT",25000,new DateTime(2017, 1, 18)));
+            employees.Add(new Employee(1236,"Zeerav","RAT",26000,new DateTime(2017, 11, 19)));
             employees.Add(new Employee(1235, "Shubham", "PAT", 25000, new DateTime(2017, 11, 18)));
             foreach (Employee item in employees )
             {
@@ -209,30 +269,50 @@ namespace EmployeeDetails
                         List<Employee> sortedList = new List<Employee>();
                         if (str2 == "id")
                         {
-                            sortedList = employees.OrderBy(e => e.id).ToList();
+                           // sortedList = employees.OrderBy(e => e.id).ToList();
+                            Employee_SortByIDByAscendingOrder eAsc =
+                                    new Employee_SortByIDByAscendingOrder();
+                            // Sort Employees by salary by ascending order.
+
+                            employees.Sort(eAsc);
 
                         }
                         else if (str2 == "name")
                         {
-                            sortedList = employees.OrderBy(e => e.name).ToList();
+                            //sortedList = employees.OrderBy(e => e.name).ToList();
+                            Employee_SortByName eName = new Employee_SortByName();
+                            // Sort Employees by their names.                                 
+                            employees.Sort(eName);
 
                         }
                         else if(str2=="designation")
                         {
-                            sortedList = employees.OrderBy(e => e.Design).ToList();
+                            //sortedList = employees.OrderBy(e => e.Design).ToList();
+                            Employee_SortByDesig eDesig = new Employee_SortByDesig();
+                            // Sort Employees by their names.                                 
+                            employees.Sort(eDesig);
 
                         }
                         else if (str2 == "salary")
                         {
-                            sortedList = employees.OrderBy(e => e.salary).ToList();
+                            Employee_SortBySalaryByAscendingOrder eAsc =
+                                    new Employee_SortBySalaryByAscendingOrder();
+                            // Sort Employees by salary by ascending order.
+                           
+                            employees.Sort(eAsc);
+                            //sortedList = employees.OrderBy(e => e.salary).ToList();
 
                         }
                         else if (str2 == "doj")
                         {
-                            sortedList = employees.OrderBy(e => e.date).ToList();
+                            //sortedList = employees.OrderBy(e => e.date).ToList();
+                            Employee_SortByDoj eDesig = new Employee_SortByDoj();
+                            // Sort Employees by their names.                                 
+                            employees.Sort(eDesig);
+
 
                         }
-                        foreach (Employee item in sortedList)
+                        foreach (Employee item in employees)
                         {
                             Console.WriteLine(item);
                         }
