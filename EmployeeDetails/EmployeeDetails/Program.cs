@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,23 @@ using System.Threading.Tasks;
 
 namespace EmployeeDetails
 {
+    class errorException
+    {
+        public static void errorhandle(Exception ex)
+        {
+            string filePath = @"D:\errorlog.txt";
+            if (!File.Exists(filePath))
+            {
+                File.Create(filePath).Dispose();
+            }
+            using (StreamWriter writer = new StreamWriter(filePath, true))
+            {
+                writer.WriteLine("Message :" + ex.Message + "<br/>" + Environment.NewLine + "StackTrace :" + ex.StackTrace +
+                   "" + Environment.NewLine + "Date :" + DateTime.Now.ToString());
+                writer.WriteLine(Environment.NewLine + "-----------------------------------------------------------------------------" + Environment.NewLine);
+            }
+        }
+    }
     class Employee
     {
         
@@ -61,31 +79,48 @@ namespace EmployeeDetails
             return s;
             
         } 
-        public void AddEmployee()
+        public bool AddEmployee(List<Employee> employees)
         {
-            int id,sal;
-            Console.WriteLine("Add id");
-            id=int.Parse(Console.ReadLine());
-            EmployeeID = id;
-            Console.WriteLine("add name");
-            string name = Console.ReadLine();
-            EmployeeName = name;
-            Console.WriteLine("Add designation");
-            string desig = Console.ReadLine();
-            Designation = desig;
-            Console.WriteLine("Add salary");
-            sal = int.Parse(Console.ReadLine());
-            Salary = sal;
-            Console.WriteLine("Add Doj");
-            DateTime date=DateTime.Parse(Console.ReadLine());
-            Doj = date;
+
+            try
+            {
+                int id, sal;
+                Console.WriteLine("Add id");
+                id = int.Parse(Console.ReadLine());
+                foreach (Employee item in employees)
+                {
+                    if (item.id == id)
+                    {
+                        Console.WriteLine("Already Exists");
+                        return false;
+                    }
+                }
+                EmployeeID = id;
+                Console.WriteLine("add name");
+                string name = Console.ReadLine();
+                EmployeeName = name;
+                Console.WriteLine("Add designation");
+                string desig = Console.ReadLine();
+                Designation = desig;
+                Console.WriteLine("Add salary");
+                sal = int.Parse(Console.ReadLine());
+                Salary = sal;
+                Console.WriteLine("Add Doj");
+                DateTime date = DateTime.Parse(Console.ReadLine());
+                Doj = date;
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                errorException.errorhandle(e);
+                return false;
+            }
         }
        
     }
     class Employee_SortBySalaryByAscendingOrder : IComparer<Employee>
     {
-
-
         public int Compare(Employee x, Employee y)
         {
             if (x.salary > y.salary) return 1;
@@ -156,7 +191,8 @@ namespace EmployeeDetails
                 Console.WriteLine(item);
                 Console.WriteLine("---------------------------------");
             }
-            Console.WriteLine("1.Add Employee");
+            
+            A:Console.WriteLine("1.Add Employee");
             Console.WriteLine("2.Update Employee");
             Console.WriteLine("3.Delete Employee");
             Console.WriteLine("4.Display");
@@ -165,162 +201,182 @@ namespace EmployeeDetails
             Console.WriteLine("7.Exit");
 
             int ch=int.Parse(Console.ReadLine());
-            switch (ch)
+
+            if (ch < 8 && ch>0)
             {
-                case 1:
-                    {
-                       Employee empl = new Employee();
-                        empl.AddEmployee();
-                        employees.Add(empl);
-                        foreach (Employee item in employees)
+                switch (ch)
+                {
+                    case 1:
                         {
-                            Console.WriteLine(item);
-                        }
-                        break;
-                    }
-                case 2:
-                    {
-                            Employee emp2=new Employee();
-                        Console.WriteLine("Give EmployeeId");
-                        int id = int.Parse(Console.ReadLine());
-                        Console.WriteLine("1.Update name");
-                        Console.WriteLine("2.Update designation");
-                        Console.WriteLine("3.update salary");
-                        int a = int.Parse(Console.ReadLine());
-                        switch (a)
-                        {
-                            case 1:
+                            Employee empl = new Employee();
+                            if (empl.AddEmployee(employees))
+                            {
+
+                                employees.Add(empl);
+                                foreach (Employee item in employees)
                                 {
-                                    Console.WriteLine("Change Name");
-                                    string str = Console.ReadLine();
-                                    foreach (Employee item in employees)
-                                    {
-                                        if (item.id == id)
-                                        {
-                                            item.name = str;
-                                            emp2=item;
-                                        }
-                                    }
-                                    break;
+                                    Console.WriteLine(item);
                                 }
-                            case 2:
-                                {
-                                    Console.WriteLine("Change designation");
-                                    string str1 = Console.ReadLine();
-                                    foreach (Employee item in employees)
+                                break;
+                            }
+                            else
+                            goto A;
+                        }
+                    case 2:
+                        {
+                            Employee emp2 = new Employee();
+                            Console.WriteLine("Give EmployeeId");
+                            int id = int.Parse(Console.ReadLine());
+                            Console.WriteLine("1.Update name");
+                            Console.WriteLine("2.Update designation");
+                            Console.WriteLine("3.update salary");
+                            int a = int.Parse(Console.ReadLine());
+                            switch (a)
+                            {
+                                case 1:
                                     {
-                                        if (item.id == id)
+                                        Console.WriteLine("Change Name");
+                                        string str = Console.ReadLine();
+                                        foreach (Employee item in employees)
                                         {
-                                            item.Design = str1;
+                                            if (item.id == id)
+                                            {
+                                                item.name = str;
+                                                emp2 = item;
+                                            }
                                         }
+                                        goto A;
                                     }
-                                    break;
-                                }
-                            case 3:
-                                {
-                                    Console.WriteLine("Change Salary");
-                                    int int1 =int.Parse(Console.ReadLine());
-                                    foreach (Employee item in employees)
+                                case 2:
                                     {
-                                        if (item.id == id)
+                                        Console.WriteLine("Change designation");
+                                        string str1 = Console.ReadLine();
+                                        foreach (Employee item in employees)
                                         {
-                                            item.salary = int1;
+                                            if (item.id == id)
+                                            {
+                                                item.Design = str1;
+                                            }
                                         }
+                                        goto A;
                                     }
-                                    break;
-                                }
+                                case 3:
+                                    {
+                                        Console.WriteLine("Change Salary");
+                                        int int1 = int.Parse(Console.ReadLine());
+                                        foreach (Employee item in employees)
+                                        {
+                                            if (item.id == id)
+                                            {
+                                                item.salary = int1;
+                                            }
+                                        }
+                                        goto A;
+                                    }
+                            }
+                            Console.WriteLine(emp2.ToString());
+                            break;
                         }
-                        Console.WriteLine(emp2.ToString());
+                    case 3:
+                        {
+                            Console.WriteLine("Enter the id");
+                            int id = int.Parse(Console.ReadLine());
+                            employees.RemoveAll(item => item.id == id);
+                            foreach (Employee item in employees)
+                            {
+                                Console.WriteLine(item);
+                            }
+                            goto A;
+
+                        }
+                    case 4:
+                        {
+                            foreach (Employee item in employees)
+                            {
+                                Console.WriteLine(item);
+
+                            }
+                            goto A;
+                        }
+                    case 5:
+                        {
+                            Console.WriteLine("Enter the item you want to search");
+                            var v = int.Parse(Console.ReadLine());
+                            var ad = employees.Find(item => item.id == v);
+                            Console.WriteLine(ad);
+                            goto A;
+                        }
+                    case 6:
+                        {
+                            Console.WriteLine("Sortby:");
+                            string str2 = Console.ReadLine();
+                            List<Employee> sortedList = new List<Employee>();
+                            if (str2 == "id")
+                            {
+                                // sortedList = employees.OrderBy(e => e.id).ToList();
+                                Employee_SortByIDByAscendingOrder eAsc =
+                                        new Employee_SortByIDByAscendingOrder();
+                                // Sort Employees by salary by ascending order.
+
+                                employees.Sort(eAsc);
+
+                            }
+                            else if (str2 == "name")
+                            {
+                                //sortedList = employees.OrderBy(e => e.name).ToList();
+                                Employee_SortByName eName = new Employee_SortByName();
+                                // Sort Employees by their names.                                 
+                                employees.Sort(eName);
+
+                            }
+                            else if (str2 == "designation")
+                            {
+                                //sortedList = employees.OrderBy(e => e.Design).ToList();
+                                Employee_SortByDesig eDesig = new Employee_SortByDesig();
+                                // Sort Employees by their names.                                 
+                                employees.Sort(eDesig);
+
+                            }
+                            else if (str2 == "salary")
+                            {
+                                Employee_SortBySalaryByAscendingOrder eAsc =
+                                        new Employee_SortBySalaryByAscendingOrder();
+                                // Sort Employees by salary by ascending order.
+
+                                employees.Sort(eAsc);
+                                //sortedList = employees.OrderBy(e => e.salary).ToList();
+
+                            }
+                            else if (str2 == "doj")
+                            {
+                                //sortedList = employees.OrderBy(e => e.date).ToList();
+                                Employee_SortByDoj eDesig = new Employee_SortByDoj();
+                                // Sort Employees by their names.                                 
+                                employees.Sort(eDesig);
+
+
+                            }
+                            foreach (Employee item in employees)
+                            {
+                                Console.WriteLine(item);
+
+                            }
+                            Console.WriteLine("================================");
+                            goto A;
+                        }
+                    case 7:
+                        Console.WriteLine("Bye Bye!!");
                         break;
-                    }
-                case 3:
-                    {
-                        Console.WriteLine("Enter the id");
-                        int id = int.Parse(Console.ReadLine());
-                        employees.RemoveAll(item => item.id == id);
-                        foreach (Employee item in employees)
-                        {
-                            Console.WriteLine(item);
-                        }
-                        break;
-                     
-                    }
-                case 4:
-                    {
-                        foreach (Employee item in employees)
-                        {
-                            Console.WriteLine(item);
-                            
-                        }
-                        break;
-                    }
-                case 5:
-                    {
-                        Console.WriteLine("Enter the item you want to search");
-                        var v = int.Parse(Console.ReadLine());
-                        var ad=employees.Find(item=>item.id==v);
-                        Console.WriteLine(ad);
-                        break;
-                    }
-                case 6:
-                    {
-                        Console.WriteLine("Sortby:");
-                        string str2 = Console.ReadLine();
-                        List<Employee> sortedList = new List<Employee>();
-                        if (str2 == "id")
-                        {
-                           // sortedList = employees.OrderBy(e => e.id).ToList();
-                            Employee_SortByIDByAscendingOrder eAsc =
-                                    new Employee_SortByIDByAscendingOrder();
-                            // Sort Employees by salary by ascending order.
-
-                            employees.Sort(eAsc);
-
-                        }
-                        else if (str2 == "name")
-                        {
-                            //sortedList = employees.OrderBy(e => e.name).ToList();
-                            Employee_SortByName eName = new Employee_SortByName();
-                            // Sort Employees by their names.                                 
-                            employees.Sort(eName);
-
-                        }
-                        else if(str2=="designation")
-                        {
-                            //sortedList = employees.OrderBy(e => e.Design).ToList();
-                            Employee_SortByDesig eDesig = new Employee_SortByDesig();
-                            // Sort Employees by their names.                                 
-                            employees.Sort(eDesig);
-
-                        }
-                        else if (str2 == "salary")
-                        {
-                            Employee_SortBySalaryByAscendingOrder eAsc =
-                                    new Employee_SortBySalaryByAscendingOrder();
-                            // Sort Employees by salary by ascending order.
-                           
-                            employees.Sort(eAsc);
-                            //sortedList = employees.OrderBy(e => e.salary).ToList();
-
-                        }
-                        else if (str2 == "doj")
-                        {
-                            //sortedList = employees.OrderBy(e => e.date).ToList();
-                            Employee_SortByDoj eDesig = new Employee_SortByDoj();
-                            // Sort Employees by their names.                                 
-                            employees.Sort(eDesig);
 
 
-                        }
-                        foreach (Employee item in employees)
-                        {
-                            Console.WriteLine(item);
-                        }
-                        
-                        break;
-                    }
 
-                    
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid value");
+                Console.WriteLine("================================");
+                goto A;
             }
         }
 
