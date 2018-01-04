@@ -1,0 +1,8 @@
+c:\users\665834\documents\visual studio 2012\Projects\Employee\Employee\bin\Debug\Employee.exe.config
+c:\users\665834\documents\visual studio 2012\Projects\Employee\Employee\bin\Debug\Employee.exe
+c:\users\665834\documents\visual studio 2012\Projects\Employee\Employee\bin\Debug\Employee.pdb
+c:\users\665834\documents\visual studio 2012\Projects\Employee\Employee\bin\Debug\log4net.dll
+c:\users\665834\documents\visual studio 2012\Projects\Employee\Employee\bin\Debug\log4net.xml
+c:\users\665834\documents\visual studio 2012\Projects\Employee\Employee\obj\Debug\Employee.csprojResolveAssemblyReference.cache
+c:\users\665834\documents\visual studio 2012\Projects\Employee\Employee\obj\Debug\Employee.exe
+c:\users\665834\documents\visual studio 2012\Projects\Employee\Employee\obj\Debug\Employee.pdb
