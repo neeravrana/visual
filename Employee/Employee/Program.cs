@@ -340,6 +340,62 @@ namespace EmployeeDetails
                     con2.Close();
                 }
             }
+            else if(x==6)
+            {
+                using (SqlConnection con2 = new SqlConnection(ConnectionString))
+                {
+                    try
+                    {
+                Console.WriteLine("Enter the ID you wanna update ");
+                    int n = int.Parse(Console.ReadLine());
+                    DataSet emp_table = new DataSet();
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter std = new SqlDataAdapter();
+                    String se = "Select * from employee_details";
+                    std.SelectCommand = new SqlCommand(se, conn);
+                    std.FillSchema(dt, SchemaType.Source);
+                    std.Fill(dt);
+                    DataRow row = dt.Rows.Find(n);
+                    row["name"] = "trolll";
+                    SqlCommandBuilder builder = new SqlCommandBuilder(std);
+                    std.Update(dt);
+                }
+                }
+            }
+            else if(x==7)
+            {
+                static void write(String name, String desg, int salary, DateTime doj)
+            {
+                    
+            SqlCommand wrtrcmd = new SqlCommand();
+            wrtrcmd.Connection = conn;
+            wrtrcmd.CommandText = "USP_InsertEmployee";
+            wrtrcmd.CommandType=CommandType.StoredProcedure;
+            wrtrcmd.Parameters.AddWithValue("@name", name);
+            wrtrcmd.Parameters.AddWithValue("@desg", desg);
+            wrtrcmd.Parameters.AddWithValue("@salary", salary);
+            wrtrcmd.Parameters.AddWithValue("@doj", doj);
+            try
+            {
+                using (using (SqlConnection conn = new SqlConnection(ConnectionString)))
+                {
+                    int n = wrtrcmd.ExecuteNonQuery();
+                    if (n == 1)
+                    {
+                        Console.WriteLine("Insertion succesfull!!!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Insertion Failed!!");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+        }
+            }
        /*     List<Employee> employees = new List<Employee>();
         A: Console.WriteLine("1.Add Employee");
             Console.WriteLine("2.Update Employee");
