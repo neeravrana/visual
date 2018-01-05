@@ -135,7 +135,7 @@ namespace EmployeeDetails
         }
 
     }
-    class Employee_SortBySalaryByAscendingOrder : IComparer<Employee>
+   /* class Employee_SortBySalaryByAscendingOrder : IComparer<Employee>
     {
         public int Compare(Employee x, Employee y)
         {
@@ -202,7 +202,7 @@ namespace EmployeeDetails
         }
 
 
-    }
+    }*/
     public class example
     {
         public static void Main()
@@ -340,7 +340,7 @@ namespace EmployeeDetails
                     con2.Close();
                 }
             }
-            List<Employee> employees = new List<Employee>();
+       /*     List<Employee> employees = new List<Employee>();
         A: Console.WriteLine("1.Add Employee");
             Console.WriteLine("2.Update Employee");
             Console.WriteLine("3.Delete Employee");
@@ -615,6 +615,6 @@ namespace EmployeeDetails
                 errorException.errorhandle(e);
 
             }
-        }
+        }*/
     }
 }
